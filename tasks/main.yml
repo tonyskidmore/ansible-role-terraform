@@ -1,5 +1,5 @@
 ---
-- name: Get terraform version
+- name: Get cwd terraform version
   command: "{{ terraform_path }}/terraform --version"
   changed_when: false
   failed_when: false

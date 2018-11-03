@@ -6,5 +6,6 @@ terraform_version: "latest"
 terraform_checkpoint_url: "https://checkpoint-api.hashicorp.com/v1/check/terraform"
 terraform_arch: "amd64"
 terraform_zipfile: "terraform_{{ terraform_version }}_{{ terraform_os }}_{{ terraform_arch }}.zip"
+terraform_path: "./"
 verbosity_level: 2
 terraform_force: false
