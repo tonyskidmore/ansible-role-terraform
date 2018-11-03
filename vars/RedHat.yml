@@ -1,0 +1,5 @@
+---
+
+terraform_os: "linux"
+terraform_path: "/usr/local/bin"
+terraform_tmp: "/tmp"

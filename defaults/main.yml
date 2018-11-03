@@ -1,0 +1,10 @@
+---
+# Example
+# https://releases.hashicorp.com/terraform/0.10.3/terraform_0.10.3_linux_amd64.zip
+
+terraform_version: "latest"
+terraform_checkpoint_url: "https://checkpoint-api.hashicorp.com/v1/check/terraform"
+terraform_arch: "amd64"
+terraform_zipfile: "terraform_{{ terraform_version }}_{{ terraform_os }}_{{ terraform_arch }}.zip"
+verbosity_level: 2
+terraform_force: false

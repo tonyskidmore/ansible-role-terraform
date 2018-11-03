@@ -1,0 +1,38 @@
+---
+
+- name: Create terraform directory path
+  win_file:
+    path: "{{ terraform_path }}"
+    state: directory
+
+- name: Copy downloaded terraform zip file
+  win_copy:
+    src: "{{ terraform_tmp }}/{{ terraform_zipfile }}"
+    dest: "{{ terraform_path }}"
+
+- name: Unarchive terraform zip to destination
+  win_unzip:
+    src: "{{ terraform_path }}/{{ terraform_zipfile }}"
+    dest: "{{ terraform_path }}"
+    rm: true
+
+- name: Get terraform version
+  win_command: "{{ terraform_path }}/terraform --version"
+  changed_when: false
+  failed_when: false
+  register: terraform_output
+
+- name: Debug terraform version
+  debug:
+    var: terraform_output
+    verbosity: " {{ verbosity_level }}"
+
+- name: Define expected version output
+  set_fact:
+    terraform_expected_version: "Terraform v{{ terraform_version }}"
+
+- name: Fail due to terraform version validation failure
+  fail:
+    msg: "Unable to verify expected terraform version after extraction"
+  when: terraform_version != terraform_output.stdout_lines[0]
+

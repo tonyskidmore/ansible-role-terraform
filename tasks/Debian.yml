@@ -1,0 +1,36 @@
+---
+- name: Install unzip package
+  apt:
+   name: unzip
+   state: present
+
+- name: Unarchive terraform zip to destination
+  unarchive:
+    src: "{{ terraform_tmp }}/{{ terraform_zipfile }}"
+    dest: "{{ terraform_path }}"
+    remote_src: yes
+
+- name: Get terraform version
+  command: "{{ terraform_path }}/terraform --version"
+  changed_when: false
+  failed_when: false
+  register: terraform_output
+
+- name: Debug terraform version
+  debug:
+    var: terraform_output
+    verbosity: " {{ verbosity_level }}"
+
+- name: Define expected version output
+  set_fact:
+    terraform_expected_version: "Terraform v{{ terraform_version }}"
+
+- name: Fail due to terraform version validation failure
+  fail:
+    msg: "Unable to verify expected terraform version after extraction"
+  when: terraform_expected_version != terraform_output.stdout_lines[0]
+
+- name: Remove downloaded zip archive
+  file:
+    path: "{{ terraform_tmp }}/{{ terraform_zipfile }}"
+    state: absent

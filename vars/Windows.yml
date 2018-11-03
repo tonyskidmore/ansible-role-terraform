@@ -1,0 +1,6 @@
+---
+
+terraform_os: "windows"
+terraform_path: "c:/terraform"
+terraform_tmp: "c:/windows/temp"
+
